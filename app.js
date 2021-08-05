@@ -112,11 +112,16 @@ const closeModalBut = document.querySelector('[data-action="close-lightbox"]');
 modalEl.addEventListener('click', isCloseModal);
 // ФУНКЦИЯ ЗАКРЫТИЯ МОДАЛКИ ПРИ НАЖАТИИ НА КНОПКУ "КРЕСТИК"
 function isCloseModal(e) {
-  if (e.target.nodeName !== 'BUTTON') {return}
+  console.log(e.target.nodeName);
+  if (e.target.nodeName !== 'BUTTON' & e.target.nodeName !== 'DIV') {return}
   modalEl.classList.remove('is-open');
   imgEl.src = '';
 }
-
+// ЗАКРЫТИЕ МОДАЛКИ КНОПКОЙ ESC
+window.addEventListener('keypress', isCloseModalbyESC);
+function isCloseModalbyESC() {
+  console.log("button")
+}
 // ПРОВЕРОЧНАЯ КОНСОЛЬ
 console.log("error none");
 
