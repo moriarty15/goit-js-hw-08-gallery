@@ -98,7 +98,6 @@ function isOpenModal(e) {
   if (e.target.nodeName !== 'IMG') { return }
   originalUrl = e.target.dataset.source;
   imgEl.src = originalUrl;
-  console.log(originalUrl);
   modalEl.classList.add('is-open');
 }
 
@@ -112,15 +111,15 @@ const closeModalBut = document.querySelector('[data-action="close-lightbox"]');
 modalEl.addEventListener('click', isCloseModal);
 // ФУНКЦИЯ ЗАКРЫТИЯ МОДАЛКИ ПРИ НАЖАТИИ НА КНОПКУ "КРЕСТИК"
 function isCloseModal(e) {
-  console.log(e.target.nodeName);
   if (e.target.nodeName !== 'BUTTON' & e.target.nodeName !== 'DIV') {return}
   modalEl.classList.remove('is-open');
   imgEl.src = '';
 }
 // ЗАКРЫТИЕ МОДАЛКИ КНОПКОЙ ESC
-window.addEventListener('keypress', isCloseModalbyESC);
-function isCloseModalbyESC() {
-  console.log("button")
+window.addEventListener('keydown', isCloseModalbyESC);
+function isCloseModalbyESC(e) {
+  if (e.key !== 'Escape') { return }
+  modalEl.classList.remove('is-open');
 }
 // ПРОВЕРОЧНАЯ КОНСОЛЬ
 console.log("error none");
