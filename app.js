@@ -66,11 +66,11 @@ const galleryItems = [
 
 // СПИСОК В КОТОРЫЙ НУЖНО ДОБАВИТЬ ЭЛЕМЕНТЫ ГАЛЕРИИ 
 const ulEl = document.querySelector(".js-gallery");
-
+let idValue = 1;
 // ФУНКЦИЯ ПО СОЗДАНИЮ ЭЛЕМЕНТОВ КОЛЛЕКЦИИ
 const creationElementsGallery = (e) => {
   return e.map(e =>
-    `<li class="gallery__item">
+    `<li class="gallery__item" id='${idValue++}'>
 
     <img
       class="gallery__image"
@@ -91,28 +91,56 @@ ulEl.addEventListener('click', isOpenModal);
 
 // ФУНКЦИЯ ПО ОТКРЫТИЮ МОДАЛЬНОГО ОКНА ПРИ НАЖАТИИ ТОЛЬКО НА КАРТИНКУ И ПОЛУЧЕНИЮ ССЫЛКИ НА ОРИГИНАЛ
 const imgEl = document.querySelector(".lightbox__image");
-console.log(imgEl);
+
+const allElID = document.querySelectorAll('li');
+const imgAllElID = ulEl.querySelectorAll('img');
 
 let originalUrl = '';
+let preSource = '';
+let nextSource = '';
 function isOpenModal(e) {
   if (e.target.nodeName !== 'IMG') { return }
   originalUrl = e.target.dataset.source;
   imgEl.src = originalUrl;
   modalEl.classList.add('is-open');
+  console.log(modalEl.classList.contains('is-open'));
+  while (modalEl.classList.contains('is-open') === true) {
+    for (let i = 0; i < imgAllElID.length; i += 1) {
+      if (imgAllElID[i].dataset.source === imgEl.src) {
+        let nextEl = imgAllElID[i + 1].dataset.source;
+        let preEl = imgAllElID[i - 1].dataset.source;
+        console.log(nextEl);
+        console.log(preEl);
+        window.addEventListener('keydown', down);
+        function down(e) {
+          if (e.key === 'ArrowLeft') {return imgEl.src = preEl }
+          if (e.key === 'ArrowRight') {return imgEl.src = nextEl}
+        }
+      }
+    }
+    break;
+  }
+  
 }
+//  ArrowLeft   ArrowRight
 
 // ДОСТУЧАЛСЯ  МОДАЛЬНОГО ОКНА
 const modalEl = document.querySelector(".lightbox");
 
 // ДОСТУЧАЛСЯ ДО КНОПКИ ЗАКРЫТИЯ МОДАЛЬНОГО ОКНА
 const closeModalBut = document.querySelector('[data-action="close-lightbox"]');
-
+// zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 // ДОБАВИЛ СЛУШАТЕЛЯ СОБЫТИЙ ПРИ НАЖАТИИ НА КНОПКУ ЗАКРЫТИЯ МОДАЛКИ
 modalEl.addEventListener('click', isCloseModal);
 // ФУНКЦИЯ ЗАКРЫТИЯ МОДАЛКИ ПРИ НАЖАТИИ НА КНОПКУ "КРЕСТИК"
 function isCloseModal(e) {
   if (e.target.nodeName !== 'BUTTON' & e.target.nodeName !== 'DIV') {return}
   modalEl.classList.remove('is-open');
+    imgEl.src = '';
+  console.log(modalEl.classList.contains('is-open'));
+  while (modalEl.classList.contains('is-open') === false) {
+  break;
+} 
   imgEl.src = '';
 }
 // ЗАКРЫТИЕ МОДАЛКИ КНОПКОЙ ESC
@@ -120,11 +148,17 @@ window.addEventListener('keydown', isCloseModalbyESC);
 function isCloseModalbyESC(e) {
   if (e.key !== 'Escape') { return }
   modalEl.classList.remove('is-open');
+  imgEl.src = '';
 }
+// zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+// ЛИСТАНИЕ ГАЛЕРИИ ЧЕРЕЗ КНОПКИ "ВЛЕВО" И "ВПРАВО"
+
+
+
 // ПРОВЕРОЧНАЯ КОНСОЛЬ
 console.log("error none");
 
-
+// НЕ ПОНЯЛ ДЛЯ ЧЕГО ССЫЛКА???
   // <a
   //   class="gallery__link"
   //   href="${e.original}"
