@@ -66,11 +66,10 @@ const galleryItems = [
 
 // СПИСОК В КОТОРЫЙ НУЖНО ДОБАВИТЬ ЭЛЕМЕНТЫ ГАЛЕРИИ 
 const ulEl = document.querySelector(".js-gallery");
-let idValue = 1;
 // ФУНКЦИЯ ПО СОЗДАНИЮ ЭЛЕМЕНТОВ КОЛЛЕКЦИИ
 const creationElementsGallery = (e) => {
   return e.map(e =>
-    `<li class="gallery__item" id='${idValue++}'>
+    `<li class="gallery__item">
 
     <img
       class="gallery__image"
@@ -90,24 +89,16 @@ ulEl.addEventListener('click', OpenModal);
 
 
 // ФУНКЦИЯ ПО ОТКРЫТИЮ МОДАЛЬНОГО ОКНА ПРИ НАЖАТИИ ТОЛЬКО НА КАРТИНКУ И ПОЛУЧЕНИЮ ССЫЛКИ НА ОРИГИНАЛ
+// И ПРОСМОТР ВСЕХ КАРТИНОК ПРИ НАЖАТИИ КНОПОК ВЛЕВО И ВПРАВО
 const imgEl = document.querySelector(".lightbox__image");
 
-const allElID = document.querySelectorAll('li');
 const imgAllElID = ulEl.querySelectorAll('img');
 
-let originalUrl = '';
-let originalAlt = '';
-let preSource = '';
-let nextSource = '';
 function OpenModal(e) {
   if (e.target.nodeName !== 'IMG') { return }
-  originalUrl = e.target.dataset.source;
-  originalAlt = e.target.alt;
-  imgEl.src = originalUrl;
-  imgEl.alt = originalAlt;
+  imgEl.src = e.target.dataset.source;
+  imgEl.alt = e.target.alt;
   modalEl.classList.add('is-open');
-  console.log(modalEl.classList.contains('is-open'));
-  
   while (modalEl.classList.contains('is-open') === true) {
     window.addEventListener('keydown', down);
         function down(e) {
@@ -116,7 +107,6 @@ function OpenModal(e) {
               if (imgAllElID[i].dataset.source === imgEl.src) {
                 imgEl.src = imgAllElID[i + 1].dataset.source;
                 imgEl.alt = imgAllElID[i + 1].alt;
-                console.log('pressed right')
                 break;
               }
             }
@@ -126,15 +116,13 @@ function OpenModal(e) {
               if (imgAllElID[i].dataset.source === imgEl.src) {
                 imgEl.src = imgAllElID[i - 1].dataset.source;
                 imgEl.alt = imgAllElID[i - 1].alt;
-                console.log('pressed left')
                 break;
-              }
+              } 
             }
           }
         }
     break;
   }
-  
 }
 //  ArrowLeft   ArrowRight
 
@@ -142,22 +130,18 @@ function OpenModal(e) {
 const modalEl = document.querySelector(".lightbox");
 
 // ДОСТУЧАЛСЯ ДО КНОПКИ ЗАКРЫТИЯ МОДАЛЬНОГО ОКНА
-const closeModalBut = document.querySelector('[data-action="close-lightbox"]');
+// const closeModalBut = document.querySelector('[data-action="close-lightbox"]');
 // zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 // ДОБАВИЛ СЛУШАТЕЛЯ СОБЫТИЙ ПРИ НАЖАТИИ НА КНОПКУ ЗАКРЫТИЯ МОДАЛКИ
 modalEl.addEventListener('click', isCloseModal);
-// ФУНКЦИЯ ЗАКРЫТИЯ МОДАЛКИ ПРИ НАЖАТИИ НА КНОПКУ "КРЕСТИК"
+// ФУНКЦИЯ ЗАКРЫТИЯ МОДАЛКИ ПРИ НАЖАТИИ НА КНОПКУ "КРЕСТИК" ИЛИ БЭКДРОП
 function isCloseModal(e) {
   if (e.target.nodeName !== 'BUTTON' & e.target.nodeName !== 'DIV') {return}
   modalEl.classList.remove('is-open');
   imgEl.src = '';
   imgEl.alt = '';
-  console.log(modalEl.classList.contains('is-open'));
-  while (modalEl.classList.contains('is-open') === false) {
-  break;
-} 
 }
-// ЗАКРЫТИЕ МОДАЛКИ КНОПКОЙ ESC
+// ФУНКЦИЯ ЗАКРЫТИЕ МОДАЛКИ КНОПКОЙ ESC
 window.addEventListener('keydown', isCloseModalbyESC);
 function isCloseModalbyESC(e) {
   if (e.key !== 'Escape') { return }
@@ -166,9 +150,6 @@ function isCloseModalbyESC(e) {
   imgEl.alt = '';
 }
 // zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-// ЛИСТАНИЕ ГАЛЕРИИ ЧЕРЕЗ КНОПКИ "ВЛЕВО" И "ВПРАВО"
-
-
 
 // ПРОВЕРОЧНАЯ КОНСОЛЬ
 console.log("error none");
