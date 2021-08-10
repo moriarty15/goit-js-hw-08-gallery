@@ -89,7 +89,6 @@ ulEl.addEventListener('click', OpenModal);
 
 
 // ФУНКЦИЯ ПО ОТКРЫТИЮ МОДАЛЬНОГО ОКНА ПРИ НАЖАТИИ ТОЛЬКО НА КАРТИНКУ И ПОЛУЧЕНИЮ ССЫЛКИ НА ОРИГИНАЛ
-// И ПРОСМОТР ВСЕХ КАРТИНОК ПРИ НАЖАТИИ КНОПОК ВЛЕВО И ВПРАВО
 const imgEl = document.querySelector(".lightbox__image");
 
 const imgAllElID = ulEl.querySelectorAll('img');
@@ -99,33 +98,33 @@ function OpenModal(e) {
   imgEl.src = e.target.dataset.source;
   imgEl.alt = e.target.alt;
   modalEl.classList.add('is-open');
-  while (modalEl.classList.contains('is-open') === true) {
-    window.addEventListener('keydown', down);
-        function down(e) {
-          if (e.key === 'ArrowRight') {
-            for (let i = 0; i < imgAllElID.length; i += 1) {
-              if (imgAllElID[i].dataset.source === imgEl.src) {
-                imgEl.src = imgAllElID[i + 1].dataset.source;
-                imgEl.alt = imgAllElID[i + 1].alt;
-                break;
-              }
-            }
-          }
-          if (e.key === 'ArrowLeft') {
-            for (let i = 0; i < imgAllElID.length; i += 1) {
-              if (imgAllElID[i].dataset.source === imgEl.src) {
-                imgEl.src = imgAllElID[i - 1].dataset.source;
-                imgEl.alt = imgAllElID[i - 1].alt;
-                break;
-              } 
-            }
-          }
-        }
-    break;
-  }
+
 }
 //  ArrowLeft   ArrowRight
-
+// ПРОСМОТР ВСЕХ КАРТИНОК ПРИ НАЖАТИИ КНОПОК ВЛЕВО И ВПРАВО
+window.addEventListener('keydown', down);
+function down(e) {
+  if (e.key === 'ArrowRight') {
+    for (let i = 0; i < imgAllElID.length; i += 1) {
+      if (imgAllElID[i].dataset.source === imgEl.src) {
+        imgEl.src = imgAllElID[i + 1].dataset.source;
+        imgEl.alt = imgAllElID[i + 1].alt;
+        console.log(imgEl.alt, i)
+        break;
+      }
+    }
+  }
+  if (e.key === 'ArrowLeft') {
+    for (let i = 0; i < imgAllElID.length; i += 1) {
+      if (imgAllElID[i].dataset.source === imgEl.src) {
+        imgEl.src = imgAllElID[i - 1].dataset.source;
+        imgEl.alt = imgAllElID[i - 1].alt;
+        console.log(imgEl.alt, i)
+        break;
+      }
+    }
+  }
+}
 // ДОСТУЧАЛСЯ  МОДАЛЬНОГО ОКНА
 const modalEl = document.querySelector(".lightbox");
 
