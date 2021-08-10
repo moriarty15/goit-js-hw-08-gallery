@@ -104,23 +104,30 @@ function isOpenModal(e) {
   imgEl.src = originalUrl;
   modalEl.classList.add('is-open');
   console.log(modalEl.classList.contains('is-open'));
-  while (modalEl.classList.contains('is-open') === true) {
+  // while (modalEl.classList.contains('is-open') === true) {
+  //   for (let i = 0; i < imgAllElID.length; i += 1) {
+  //     if (imgAllElID[i].dataset.source === imgEl.src) {
+  //       let nextEl = imgAllElID[i + 1].dataset.source;
+  //       let preEl = imgAllElID[i - 1].dataset.source;
+  //       console.log(nextEl);
+  //       console.log(preEl);
+  //       window.addEventListener('keydown', down);
+  //       function down(e) {
+  //         if (e.key === 'ArrowLeft') {return imgEl.src = preEl }
+  //         if (e.key === 'ArrowRight') {return imgEl.src = nextEl}
+  //       }
+  //     }
+  //   }
+  //   break;
+  // }
+  if (e.key === 'ArrowLeft') {
     for (let i = 0; i < imgAllElID.length; i += 1) {
+      window.addEventListener('keydown', down);
       if (imgAllElID[i].dataset.source === imgEl.src) {
-        let nextEl = imgAllElID[i + 1].dataset.source;
-        let preEl = imgAllElID[i - 1].dataset.source;
-        console.log(nextEl);
-        console.log(preEl);
-        window.addEventListener('keydown', down);
-        function down(e) {
-          if (e.key === 'ArrowLeft') {return imgEl.src = preEl }
-          if (e.key === 'ArrowRight') {return imgEl.src = nextEl}
-        }
+        imgEl.src = imgAllElID[i + 1].dataset.source
       }
     }
-    break;
   }
-  
 }
 //  ArrowLeft   ArrowRight
 
