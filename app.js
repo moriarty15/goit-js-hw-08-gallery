@@ -86,7 +86,7 @@ const pushEl = creationElementsGallery(galleryItems);
 ulEl.innerHTML = pushEl;
 
 // ДОБАВЛЕНИЕ СЛУШАТЕЛЯ СОБЫТИЙ ПРИ НАЖАТИИ НА КАРТИНКУ
-ulEl.addEventListener('click', isOpenModal);
+ulEl.addEventListener('click', OpenModal);
 
 
 // ФУНКЦИЯ ПО ОТКРЫТИЮ МОДАЛЬНОГО ОКНА ПРИ НАЖАТИИ ТОЛЬКО НА КАРТИНКУ И ПОЛУЧЕНИЮ ССЫЛКИ НА ОРИГИНАЛ
@@ -96,38 +96,45 @@ const allElID = document.querySelectorAll('li');
 const imgAllElID = ulEl.querySelectorAll('img');
 
 let originalUrl = '';
+let originalAlt = '';
 let preSource = '';
 let nextSource = '';
-function isOpenModal(e) {
+function OpenModal(e) {
   if (e.target.nodeName !== 'IMG') { return }
   originalUrl = e.target.dataset.source;
+  originalAlt = e.target.alt;
   imgEl.src = originalUrl;
+  imgEl.alt = originalAlt;
   modalEl.classList.add('is-open');
   console.log(modalEl.classList.contains('is-open'));
-  // while (modalEl.classList.contains('is-open') === true) {
-  //   for (let i = 0; i < imgAllElID.length; i += 1) {
-  //     if (imgAllElID[i].dataset.source === imgEl.src) {
-  //       let nextEl = imgAllElID[i + 1].dataset.source;
-  //       let preEl = imgAllElID[i - 1].dataset.source;
-  //       console.log(nextEl);
-  //       console.log(preEl);
-  //       window.addEventListener('keydown', down);
-  //       function down(e) {
-  //         if (e.key === 'ArrowLeft') {return imgEl.src = preEl }
-  //         if (e.key === 'ArrowRight') {return imgEl.src = nextEl}
-  //       }
-  //     }
-  //   }
-  //   break;
-  // }
-  if (e.key === 'ArrowLeft') {
-    for (let i = 0; i < imgAllElID.length; i += 1) {
-      window.addEventListener('keydown', down);
-      if (imgAllElID[i].dataset.source === imgEl.src) {
-        imgEl.src = imgAllElID[i + 1].dataset.source
-      }
-    }
+  
+  while (modalEl.classList.contains('is-open') === true) {
+    window.addEventListener('keydown', down);
+        function down(e) {
+          if (e.key === 'ArrowRight') {
+            for (let i = 0; i < imgAllElID.length; i += 1) {
+              if (imgAllElID[i].dataset.source === imgEl.src) {
+                imgEl.src = imgAllElID[i + 1].dataset.source;
+                imgEl.alt = imgAllElID[i + 1].alt;
+                console.log('pressed right')
+                break;
+              }
+            }
+          }
+          if (e.key === 'ArrowLeft') {
+            for (let i = 0; i < imgAllElID.length; i += 1) {
+              if (imgAllElID[i].dataset.source === imgEl.src) {
+                imgEl.src = imgAllElID[i - 1].dataset.source;
+                imgEl.alt = imgAllElID[i - 1].alt;
+                console.log('pressed left')
+                break;
+              }
+            }
+          }
+        }
+    break;
   }
+  
 }
 //  ArrowLeft   ArrowRight
 
@@ -143,12 +150,12 @@ modalEl.addEventListener('click', isCloseModal);
 function isCloseModal(e) {
   if (e.target.nodeName !== 'BUTTON' & e.target.nodeName !== 'DIV') {return}
   modalEl.classList.remove('is-open');
-    imgEl.src = '';
+  imgEl.src = '';
+  imgEl.alt = '';
   console.log(modalEl.classList.contains('is-open'));
   while (modalEl.classList.contains('is-open') === false) {
   break;
 } 
-  imgEl.src = '';
 }
 // ЗАКРЫТИЕ МОДАЛКИ КНОПКОЙ ESC
 window.addEventListener('keydown', isCloseModalbyESC);
@@ -156,6 +163,7 @@ function isCloseModalbyESC(e) {
   if (e.key !== 'Escape') { return }
   modalEl.classList.remove('is-open');
   imgEl.src = '';
+  imgEl.alt = '';
 }
 // zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 // ЛИСТАНИЕ ГАЛЕРИИ ЧЕРЕЗ КНОПКИ "ВЛЕВО" И "ВПРАВО"
