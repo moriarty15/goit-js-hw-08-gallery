@@ -70,13 +70,11 @@ const ulEl = document.querySelector(".js-gallery");
 const creationElementsGallery = (e) => {
   return e.map(e =>
     `<li class="gallery__item">
-
     <img
       class="gallery__image"
       src="${e.preview}"
       data-source="${e.original}"
       alt="${e.description}"
-
 </li>`
   ).join(' ');
 }
@@ -98,28 +96,36 @@ function OpenModal(e) {
   imgEl.src = e.target.dataset.source;
   imgEl.alt = e.target.alt;
   modalEl.classList.add('is-open');
-
+  window.addEventListener('keydown', down);
 }
 //  ArrowLeft   ArrowRight
 // ПРОСМОТР ВСЕХ КАРТИНОК ПРИ НАЖАТИИ КНОПОК ВЛЕВО И ВПРАВО
-window.addEventListener('keydown', down);
+
 function down(e) {
   if (e.key === 'ArrowRight') {
     for (let i = 0; i < imgAllElID.length; i += 1) {
+      if (imgAllElID[8].dataset.source === imgEl.src) {
+        imgEl.src = imgAllElID[0].dataset.source;
+        imgEl.alt = imgAllElID[0].alt;
+        break;
+      }
       if (imgAllElID[i].dataset.source === imgEl.src) {
         imgEl.src = imgAllElID[i + 1].dataset.source;
         imgEl.alt = imgAllElID[i + 1].alt;
-        console.log(imgEl.alt, i)
         break;
       }
     }
   }
   if (e.key === 'ArrowLeft') {
     for (let i = 0; i < imgAllElID.length; i += 1) {
+      if (imgAllElID[0].dataset.source === imgEl.src) {
+        imgEl.src = imgAllElID[8].dataset.source;
+        imgEl.alt = imgAllElID[8].alt;
+        break;
+      }
       if (imgAllElID[i].dataset.source === imgEl.src) {
         imgEl.src = imgAllElID[i - 1].dataset.source;
         imgEl.alt = imgAllElID[i - 1].alt;
-        console.log(imgEl.alt, i)
         break;
       }
     }
@@ -139,6 +145,7 @@ function isCloseModal(e) {
   modalEl.classList.remove('is-open');
   imgEl.src = '';
   imgEl.alt = '';
+  window.removeEventListener('keydown', down);
 }
 // ФУНКЦИЯ ЗАКРЫТИЕ МОДАЛКИ КНОПКОЙ ESC
 window.addEventListener('keydown', isCloseModalbyESC);
@@ -147,11 +154,9 @@ function isCloseModalbyESC(e) {
   modalEl.classList.remove('is-open');
   imgEl.src = '';
   imgEl.alt = '';
+  window.removeEventListener('keydown', down);
 }
 // zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-
-// ПРОВЕРОЧНАЯ КОНСОЛЬ
-console.log("error none");
 
 // НЕ ПОНЯЛ ДЛЯ ЧЕГО ССЫЛКА???
   // <a
@@ -159,5 +164,5 @@ console.log("error none");
   //   href="${e.original}"
   // >
 
-//     />
+  //   />
   // </a>
